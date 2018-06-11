@@ -108,6 +108,38 @@ router.post('/search', function(req, res, next) {
 	});
 });
 
+var fs = require('fs')
+router.get('/cb', function(req, res, next) {
+	fs.readFile('zoo1.ejs', function(err,data) {
+		var json1 = JSON.parse(data)
+		fs.readFile('zoo2.ejs', function(err,data) {
+			var json2 = JSON.parse(data)
+			var rezul = []
+			var yes = 0
+			for(let i = 0; i < json1.length; i++){
+				for(let j = 0; j < json2.length; j++){
+					if(json2[j] == json1[i]){
+						for(let k = 0; k < rezul.length; k++){
+							if(rezul[k] == json2[j]){
+								yes = 1
+								break
+							}
+							else{
+								yes = 0
+							}
+						}
+						if (yes == 0){
+							rezul.push(json2[j])
+							console.log(json2[j])
+						}
+					}
+				}
+			}
+			res.send(rezul)
+		});
+	});
+});
+
 module.exports = router;
 
 
